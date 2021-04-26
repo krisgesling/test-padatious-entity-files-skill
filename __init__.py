@@ -1,19 +1,16 @@
-from mycroft import MycroftSkill, intent_file_handler
+from mycroft import MycroftSkill, intent_handler
 
 
 class TestPadatiousEntityFiles(MycroftSkill):
-    def __init__(self):
-        MycroftSkill.__init__(self)
+    def intialize(self):
+        self.register_entity_file('test.entity')
 
-    @intent_file_handler('files.entity.padatious.test.intent')
-    def handle_files_entity_padatious_test(self, message):
-        type = message.data.get('type')
-
-        self.speak_dialog('files.entity.padatious.test', data={
-            'type': type
-        })
+    @intent_handler("test.intent")
+    def handle_padatious_entity_test(self, message):
+        self.log.info(repr(message.data))
+        entity = message.data.get("type")
+        self.speak_dialog("test", {"type": entity})
 
 
 def create_skill():
     return TestPadatiousEntityFiles()
-
